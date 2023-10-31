@@ -49,7 +49,35 @@ public class LinearEquation {
 
     public String equation() {
         v2 line = second.subtract(first);
-        return String.format("y= %s + %f", line.y == 0 ? "" : line.y + "/" + line.x + "x", yIntercept());
+        String slope = "";
+        String yIntercept = "";
+        double numSlope = (line.y/line.x);
+        boolean isWhole = (int)numSlope == numSlope;
+        boolean isInterceptWhole = (int)yIntercept() == yIntercept();
+        int x = (int) line.x;
+        int y = (int) line.y;
+        if (line.y == 0) {
+            slope = "";
+        } else if (Math.abs(numSlope) == 1) {
+            slope = (Math.signum(numSlope) == 1.0 ? "" : "-") + "x";
+        } else if (isWhole) {
+            slope = (int)(numSlope) + "x";
+        } else if(numSlope < 0) {
+            slope = "-" + Math.abs(y) + "/" + Math.abs(x) + "x";
+        } else {
+            slope = Math.abs(y) + "/" + Math.abs(x) + "x"; //slope is always positive by this condition so abs is ok
+        }
+        System.out.println(isInterceptWhole);
+        if (yIntercept() < 0) {
+            yIntercept = (line.y == 0 ? "" : " - ") + (line.y == 0 ? -1 : 1) * Math.abs(isInterceptWhole ? ((int) yIntercept()) : yIntercept());
+        } else {
+            yIntercept = (line.y == 0 ? "" : " + ") + (isInterceptWhole ? ((int) yIntercept()) : yIntercept());
+        }
+        if (yIntercept() == 0 && line.y != 0) {
+            yIntercept = "";
+        }
+
+        return String.format("y = %s%s", slope, yIntercept);
     }
 
     public String coordinateForX(double x) {
